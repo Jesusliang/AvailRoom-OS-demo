@@ -5,7 +5,12 @@ function App() {
   return (
     <div className="App">
       <h1>Esta es una pagina de fondo</h1>
-      <DraggableComponent>
+
+      <DraggableComponent
+        isChanging={(changing) => {
+          console.log(changing);
+        }}
+      >
         <iframe
           src="http://www.youtube.com/embed/xDMP3i36naA"
           frameborder="0"

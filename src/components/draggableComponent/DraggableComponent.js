@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./DraggableComponent.module.scss";
-import { AiOutlineMinus } from "react-icons/ai";
+import { AiOutlineMinus, AiOutlineClose } from "react-icons/ai";
+import { BiWindows } from "react-icons/bi";
 
 const windowMinHeight = 100;
 const windowMinWidth = 100;
 
-const DraggableComponent = (props) => {
+const DraggableComponent = ({ children }) => {
   const [isDraggin, setIsDraggin] = useState(false);
+  const [isChanging, setIsChanging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [axisOrigin, setAxisOrigin] = useState({
     x: 0,
@@ -45,6 +47,23 @@ const DraggableComponent = (props) => {
     });
   };
 
+  const handleResizeBegin = (event, type) => {
+    event.preventDefault();
+    setIsResizing(true);
+    setAxisOrigin({
+      x: event.clientX,
+      y: event.clientY,
+    });
+    setResizeState({ ...resizeState, type });
+  };
+
+  useEffect(() => {
+    if (!isResizing && !isDraggin) {
+      return setIsChanging(false);
+    }
+    setIsChanging(true);
+  }, [isResizing, isDraggin]);
+
   useEffect(() => {
     const handleDragOver = (event) => {
       event.preventDefault();
@@ -72,24 +91,14 @@ const DraggableComponent = (props) => {
       return;
     }
 
-    document.addEventListener("mouseup", handleDragOver);
-    document.addEventListener("mousemove", handleDrag);
+    window.addEventListener("mouseup", handleDragOver);
+    window.addEventListener("mousemove", handleDrag);
 
     return () => {
-      document.removeEventListener("mouseup", handleDragOver);
-      document.removeEventListener("mousemove", handleDrag);
+      window.removeEventListener("mouseup", handleDragOver);
+      window.removeEventListener("mousemove", handleDrag);
     };
   }, [isDraggin, axisState]);
-
-  const handleResizeBegin = (event, type) => {
-    event.preventDefault();
-    setIsResizing(true);
-    setAxisOrigin({
-      x: event.clientX,
-      y: event.clientY,
-    });
-    setResizeState({ ...resizeState, type });
-  };
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -300,18 +309,18 @@ const DraggableComponent = (props) => {
     };
 
     if (!isResizing) {
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
       return;
     }
 
-    document.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseup", handleMouseUp);
 
-    document.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isResizing, resizeState, axisState]);
 
@@ -323,14 +332,22 @@ const DraggableComponent = (props) => {
         width: `${resizeState.elSize.width}px`,
         height: `${resizeState.elSize.height}px`,
       }}
-      className={styles.draggableComponent}
+      className={`${styles.draggableComponent} ${
+        isChanging && styles.changing
+      }`}
     >
       <div onMouseDown={handleDragBegin} className={styles.topBar}>
         <div className={styles.topBar_Btns}>
           <AiOutlineMinus />
         </div>
+        <div className={styles.topBar_Btns}>
+          <BiWindows />
+        </div>
+        <div className={styles.topBar_Btns}>
+          <AiOutlineClose />
+        </div>
       </div>
-      <div className={styles.body}>{props.children}</div>
+      <div className={styles.body}>{children}</div>
       <div
         onMouseDown={(e) => {
           handleResizeBegin(e, "left");
