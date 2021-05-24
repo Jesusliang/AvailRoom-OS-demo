@@ -1,6 +1,8 @@
 .draggableComponent {
   background-color: gray;
   position: absolute;
+  display: flex;
+  flex-direction: column;
   box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
   -webkit-box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
   -moz-box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
@@ -11,6 +13,7 @@
   height: 2rem;
   display: flex;
   justify-content: flex-end;
+  position: relative;
   &_Btns {
     font-size: 1.2rem;
     background-color: rgb(226, 226, 226);
@@ -20,6 +23,9 @@
   }
 }
 
+.body {
+  flex-grow: 1;
+}
 .resize {
   position: absolute;
   &Left {

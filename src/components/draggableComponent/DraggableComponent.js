@@ -269,7 +269,7 @@ const DraggableComponent = (props) => {
             setAxisState({
               ...axisState,
               elAxis: {
-                ...axisState.elAxis.y,
+                ...axisState.elAxis,
                 x: newWidth > windowMinWidth ? newX : axisState.elAxis.x,
               },
             });
@@ -330,7 +330,7 @@ const DraggableComponent = (props) => {
           <AiOutlineMinus />
         </div>
       </div>
-      {props.children}
+      <div className={styles.body}>{props.children}</div>
       <div
         onMouseDown={(e) => {
           handleResizeBegin(e, "left");

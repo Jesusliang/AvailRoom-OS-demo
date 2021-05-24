@@ -6,7 +6,12 @@ function App() {
     <div className="App">
       <h1>Esta es una pagina de fondo</h1>
       <DraggableComponent>
-        <h1>Hola</h1>
+        <iframe
+          src="http://www.youtube.com/embed/xDMP3i36naA"
+          frameborder="0"
+          height="100%"
+          width="100%"
+        ></iframe>
       </DraggableComponent>
     </div>
   );
