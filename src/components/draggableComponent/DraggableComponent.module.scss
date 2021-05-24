@@ -1,0 +1,89 @@
+.draggableComponent {
+  background-color: gray;
+  position: absolute;
+  box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
+  -webkit-box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 1px 1px 8px -1px rgba(0, 0, 0, 0.41);
+}
+
+.topBar {
+  background-color: rgb(192, 192, 192);
+  height: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  &_Btns {
+    font-size: 1.2rem;
+    background-color: rgb(226, 226, 226);
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.resize {
+  position: absolute;
+  &Left {
+    transform: translate(-50%);
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0.5rem;
+    cursor: e-resize;
+  }
+  &Right {
+    transform: translate(50%);
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 0.5rem;
+    cursor: e-resize;
+  }
+  &Bottom {
+    transform: translate(0, 50%);
+    bottom: 0;
+    left: 0;
+    height: 0.5rem;
+    width: 100%;
+    cursor: n-resize;
+  }
+  &Top {
+    transform: translate(0, -50%);
+    top: 0;
+    left: 0;
+    height: 0.5rem;
+    width: 100%;
+    cursor: n-resize;
+  }
+  &CornerTopLeft {
+    height: 0.6rem;
+    width: 0.6rem;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    cursor: se-resize;
+  }
+  &CornerTopRight {
+    height: 0.6rem;
+    width: 0.6rem;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    cursor: sw-resize;
+  }
+  &CornerBottomLeft {
+    height: 0.6rem;
+    width: 0.6rem;
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+    cursor: sw-resize;
+  }
+  &CornerBottomRight {
+    height: 0.6rem;
+    width: 0.6rem;
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+    cursor: se-resize;
+  }
+}
