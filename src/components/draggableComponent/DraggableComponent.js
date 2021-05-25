@@ -82,16 +82,15 @@ const DraggableComponent = ({ children }) => {
         let x = axisState.elAxis.x;
         const newY = axisState.latest.y + (event.clientY - axisOrigin.y);
         const newX = axisState.latest.x + (event.clientX - axisOrigin.x);
-        if (
-          newY >= 0 &&
-          newY + resizeState.elSize.height <= window.innerHeight
-        ) {
-          y = newY;
-        }
-        if (newX >= 0 && newX + resizeState.elSize.width <= window.innerWidth) {
-          x = newX;
-        }
+        x = newX;
+        y = newY;
 
+        if (x < 0) x = 0;
+        if (x + resizeState.elSize.width > window.innerWidth)
+          x = window.innerWidth - resizeState.elSize.width;
+        if (y < 0) y = 0;
+        if (y + resizeState.elSize.height > window.innerHeight)
+          y = window.innerHeight - resizeState.elSize.height;
         setAxisState({
           ...axisState,
           elAxis: {
