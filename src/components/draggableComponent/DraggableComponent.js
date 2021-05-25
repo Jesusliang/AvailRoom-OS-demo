@@ -3,7 +3,7 @@ import styles from "./DraggableComponent.module.scss";
 import { AiOutlineMinus, AiOutlineClose } from "react-icons/ai";
 import { BiWindows } from "react-icons/bi";
 
-const windowMinHeight = 100;
+const windowMinHeight = 200;
 const windowMinWidth = 100;
 
 const DraggableComponent = ({ children }) => {
@@ -78,11 +78,25 @@ const DraggableComponent = ({ children }) => {
     };
     const handleDrag = (event) => {
       if (isDraggin) {
+        let y = axisState.elAxis.y;
+        let x = axisState.elAxis.x;
+        const newY = axisState.latest.y + (event.clientY - axisOrigin.y);
+        const newX = axisState.latest.x + (event.clientX - axisOrigin.x);
+        if (
+          newY >= 0 &&
+          newY + resizeState.elSize.height <= window.innerHeight
+        ) {
+          y = newY;
+        }
+        if (newX >= 0 && newX + resizeState.elSize.width <= window.innerWidth) {
+          x = newX;
+        }
+
         setAxisState({
           ...axisState,
           elAxis: {
-            y: axisState.latest.y + (event.clientY - axisOrigin.y),
-            x: axisState.latest.x + (event.clientX - axisOrigin.x),
+            y: y,
+            x: x,
           },
         });
       }
@@ -163,7 +177,8 @@ const DraggableComponent = ({ children }) => {
           case "top":
             newHeight =
               resizeState.lastSize.height + (axisOrigin.y - event.clientY);
-            if (newHeight > windowMinHeight) {
+            newY = axisState.latest.y + (event.clientY - axisOrigin.y);
+            if (newHeight > windowMinHeight && event.clientY > 0) {
               setResizeState((resizeState) => {
                 return {
                   ...resizeState,
@@ -174,8 +189,6 @@ const DraggableComponent = ({ children }) => {
                 };
               });
               setAxisState((axisState) => {
-                const newY =
-                  axisState.latest.y + (event.clientY - axisOrigin.y);
                 return {
                   ...axisState,
                   elAxis: {
