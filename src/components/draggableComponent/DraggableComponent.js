@@ -4,7 +4,7 @@ import { AiOutlineMinus, AiOutlineClose } from "react-icons/ai";
 import { BiWindows } from "react-icons/bi";
 
 const windowMinHeight = 200;
-const windowMinWidth = 100;
+const windowMinWidth = 200;
 
 const DraggableComponent = ({ children }) => {
   const [isDraggin, setIsDraggin] = useState(false);
@@ -40,11 +40,13 @@ const DraggableComponent = ({ children }) => {
 
   const handleDragBegin = (event) => {
     event.preventDefault();
-    setIsDraggin(true);
-    setAxisOrigin({
-      x: event.clientX,
-      y: event.clientY,
-    });
+    if (event.target === event.currentTarget) {
+      setIsDraggin(true);
+      setAxisOrigin({
+        x: event.clientX,
+        y: event.clientY,
+      });
+    }
   };
 
   const handleResizeBegin = (event, type) => {
@@ -344,22 +346,37 @@ const DraggableComponent = ({ children }) => {
         width: `${resizeState.elSize.width}px`,
         height: `${resizeState.elSize.height}px`,
       }}
-      className={`${styles.draggableComponent} ${
-        isChanging && styles.changing
-      }`}
+      className={`${styles.draggableComponent}`}
     >
       <div onMouseDown={handleDragBegin} className={styles.topBar}>
-        <div className={styles.topBar_Btns}>
+        <div
+          onClick={() => {
+            console.log("minimize");
+          }}
+          className={styles.topBar_Btns}
+        >
           <AiOutlineMinus />
         </div>
-        <div className={styles.topBar_Btns}>
+        <div
+          onClick={() => {
+            console.log("maximize");
+          }}
+          className={styles.topBar_Btns}
+        >
           <BiWindows />
         </div>
-        <div className={styles.topBar_Btns}>
+        <div
+          onClick={() => {
+            console.log("close");
+          }}
+          className={styles.topBar_Btns}
+        >
           <AiOutlineClose />
         </div>
       </div>
-      <div className={styles.body}>{children}</div>
+      <div className={`${styles.body} ${isChanging && styles.changing}`}>
+        {children}
+      </div>
       <div
         onMouseDown={(e) => {
           handleResizeBegin(e, "left");

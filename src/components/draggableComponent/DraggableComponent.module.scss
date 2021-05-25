@@ -23,11 +23,16 @@
   position: relative;
   &_Btns {
     font-size: 1.2rem;
-    background-color: rgb(226, 226, 226);
     height: 100%;
     display: flex;
     align-items: center;
     padding: 0 0.5rem;
+    &:hover {
+      background-color: rgb(226, 226, 226);
+    }
+    &:active {
+      background-color: rgb(235, 235, 235);
+    }
   }
 }
 
